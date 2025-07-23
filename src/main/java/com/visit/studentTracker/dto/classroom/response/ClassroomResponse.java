@@ -1,22 +1,22 @@
-package com.visit.studentTracker.dto.student.response;
+package com.visit.studentTracker.dto.classroom.response;
 
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StudentResponse {
+public class ClassroomResponse {
     private Long uid;
-    private String loginId;
-    private String name;
-    private Long classroomId;
     private String className;
+    private Long teacherId;
+    private String teacherName;
+    private List<Long> studentIds;
+    private String description;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private LocalDateTime lastLoginAt;
-    private boolean isActive;
 }

@@ -9,5 +9,5 @@ import lombok.*;
 @Builder
 public class UpdateStudentRequest {
     private String name;
-    private String className;
+    private Long classroomId;
 }

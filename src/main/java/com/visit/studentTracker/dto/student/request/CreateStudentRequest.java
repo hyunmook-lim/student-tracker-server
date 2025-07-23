@@ -11,5 +11,5 @@ public class CreateStudentRequest {
     private String loginId;
     private String password;
     private String name;
-    private String className;
+    private Long classroomId;
 }

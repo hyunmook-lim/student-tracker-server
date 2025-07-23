@@ -2,13 +2,7 @@ package com.visit.studentTracker.entity;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -33,8 +27,9 @@ public class Student {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String className;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "classroom_id")
+    private Classroom classroom;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

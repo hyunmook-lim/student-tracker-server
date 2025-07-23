@@ -4,7 +4,9 @@ import com.visit.studentTracker.dto.student.request.CreateStudentRequest;
 import com.visit.studentTracker.dto.student.request.UpdateStudentRequest;
 import com.visit.studentTracker.dto.student.response.StudentResponse;
 import com.visit.studentTracker.entity.Student;
+import com.visit.studentTracker.entity.Classroom;
 import com.visit.studentTracker.repository.StudentRepository;
+import com.visit.studentTracker.repository.ClassroomRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,9 +18,11 @@ import java.util.stream.Collectors;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final ClassroomRepository classroomRepository;
 
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, ClassroomRepository classroomRepository) {
         this.studentRepository = studentRepository;
+        this.classroomRepository = classroomRepository;
     }
 
     // CREATE
@@ -28,11 +32,17 @@ public class StudentService {
             throw new IllegalArgumentException("이미 존재하는 로그인 아이디입니다.");
         }
 
+        Classroom classroom = null;
+        if (dto.getClassroomId() != null) {
+            classroom = classroomRepository.findById(dto.getClassroomId())
+                    .orElseThrow(() -> new IllegalArgumentException("해당 반을 찾을 수 없습니다."));
+        }
+
         Student student = Student.builder()
                 .loginId(dto.getLoginId())
                 .password(dto.getPassword()) // 추후 BCrypt 암호화 예정
                 .name(dto.getName())
-                .className(dto.getClassName())
+                .classroom(classroom)
                 .build();
 
         return toResponse(studentRepository.save(student));
@@ -62,7 +72,13 @@ public class StudentService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 학생을 찾을 수 없습니다."));
 
         student.setName(dto.getName());
-        student.setClassName(dto.getClassName());
+
+        if (dto.getClassroomId() != null) {
+            Classroom classroom = classroomRepository.findById(dto.getClassroomId())
+                    .orElseThrow(() -> new IllegalArgumentException("해당 반을 찾을 수 없습니다."));
+            student.setClassroom(classroom);
+        }
+
         student.setUpdatedAt(LocalDateTime.now());
 
         return toResponse(student);
@@ -83,7 +99,8 @@ public class StudentService {
                 .uid(student.getUid())
                 .loginId(student.getLoginId())
                 .name(student.getName())
-                .className(student.getClassName())
+                .classroomId(student.getClassroom() != null ? student.getClassroom().getUid() : null)
+                .className(student.getClassroom() != null ? student.getClassroom().getClassName() : null)
                 .createdAt(student.getCreatedAt())
                 .updatedAt(student.getUpdatedAt())
                 .lastLoginAt(student.getLastLoginAt())
