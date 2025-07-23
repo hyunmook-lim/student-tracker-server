@@ -1,0 +1,95 @@
+package com.visit.studentTracker.service;
+
+import com.visit.studentTracker.dto.teacher.request.CreateTeacherRequest;
+import com.visit.studentTracker.dto.teacher.request.UpdateTeacherRequest;
+import com.visit.studentTracker.dto.teacher.response.TeacherResponse;
+import com.visit.studentTracker.entity.Teacher;
+import com.visit.studentTracker.repository.TeacherRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class TeacherService {
+
+    private final TeacherRepository teacherRepository;
+
+    public TeacherService(TeacherRepository teacherRepository) {
+        this.teacherRepository = teacherRepository;
+    }
+
+    // CREATE
+    @Transactional
+    public TeacherResponse createTeacher(CreateTeacherRequest dto) {
+        if (teacherRepository.existsByLoginId(dto.getLoginId())) {
+            throw new IllegalArgumentException("이미 존재하는 로그인 아이디입니다.");
+        }
+
+        Teacher teacher = Teacher.builder()
+                .loginId(dto.getLoginId())
+                .password(dto.getPassword()) // 추후 BCrypt 암호화 예정
+                .name(dto.getName())
+                .email(dto.getEmail())
+                .phone(dto.getPhone())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .isActive(true)
+                .build();
+
+        return toResponse(teacherRepository.save(teacher));
+    }
+
+    // READ (단건)
+    @Transactional(readOnly = true)
+    public TeacherResponse getTeacher(Long id) {
+        return teacherRepository.findById(id)
+                .map(this::toResponse)
+                .orElseThrow(() -> new IllegalArgumentException("해당 선생님을 찾을 수 없습니다."));
+    }
+
+    // READ (전체)
+    @Transactional(readOnly = true)
+    public List<TeacherResponse> getAllTeachers() {
+        return teacherRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    // UPDATE
+    @Transactional
+    public TeacherResponse updateTeacher(Long id, UpdateTeacherRequest dto) {
+        Teacher teacher = teacherRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 선생님을 찾을 수 없습니다."));
+
+        teacher.setName(dto.getName());
+        teacher.setEmail(dto.getEmail());
+        teacher.setPhone(dto.getPhone());
+        teacher.setUpdatedAt(LocalDateTime.now());
+
+        return toResponse(teacher);
+    }
+
+    // DELETE
+    @Transactional
+    public void deleteTeacher(Long id) {
+        if (!teacherRepository.existsById(id)) {
+            throw new IllegalArgumentException("해당 선생님을 찾을 수 없습니다.");
+        }
+        teacherRepository.deleteById(id);
+    }
+
+    // DTO 변환 메서드
+    private TeacherResponse toResponse(Teacher teacher) {
+        return TeacherResponse.builder()
+                .uid(teacher.getUid())
+                .loginId(teacher.getLoginId())
+                .name(teacher.getName())
+                .email(teacher.getEmail())
+                .phone(teacher.getPhone())
+                .build();
+    }
+}
