@@ -3,43 +3,46 @@ package com.visit.studentTracker.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "classrooms")
+@Table(name = "questions")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Classroom {
+public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long uid;
 
-    @Column(nullable = false, unique = true)
-    private String className;
+    @Column(nullable = false)
+    private Integer number;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacher_id", nullable = false)
-    private Teacher teacher;
-
-    @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Student> studentList = new ArrayList<>();
-
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String description;
+
+    @Column(nullable = false)
+    private String unit; // 단원
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "question_types", joinColumns = @JoinColumn(name = "question_id"))
+    @Column(name = "type")
+    private List<String> types; // 유형 리스트
+
+    @Column(nullable = false)
+    private String difficulty; // 난이도
+
+    @Column(nullable = false)
+    private Integer score; // 배점
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Lecture> lectureList = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {
