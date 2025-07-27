@@ -1,7 +1,8 @@
 package com.visit.studentTracker.entity;
 
 import java.time.LocalDateTime;
-
+import java.util.List;
+import java.util.ArrayList;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,9 +28,9 @@ public class Student {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "classroom_id")
-    private Classroom classroom;
+    @Builder.Default
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<StudentClassroom> studentClassroomList = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -46,6 +47,6 @@ public class Student {
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = this.createdAt;
-        this.isActive = true;
+        this.isActive = false;
     }
 }

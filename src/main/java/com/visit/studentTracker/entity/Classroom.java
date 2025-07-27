@@ -22,24 +22,26 @@ public class Classroom {
     @Column(nullable = false, unique = true)
     private String className;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacher_id", nullable = false)
-    private Teacher teacher;
-
-    @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Student> studentList = new ArrayList<>();
-
     @Column
     private String description;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TeacherClassroom> teacherClassroomList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<StudentClassroom> studentClassroomList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Lecture> lectureList = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Lecture> lectureList = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {

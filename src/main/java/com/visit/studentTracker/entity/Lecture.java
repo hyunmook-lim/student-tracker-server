@@ -33,10 +33,14 @@ public class Lecture {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    @Column(nullable = false)
+    private boolean isActive;
+
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = this.createdAt;
+        this.isActive = true;
     }
 
     @PreUpdate

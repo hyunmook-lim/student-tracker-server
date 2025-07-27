@@ -21,22 +21,23 @@ public class Question {
     @Column(nullable = false)
     private Integer number;
 
-    @Column(columnDefinition = "TEXT")
-    private String description;
+    @Column(nullable = false)
+    private String mainTopic;
 
     @Column(nullable = false)
-    private String unit; // 단원
+    private String subTopic;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "question_types", joinColumns = @JoinColumn(name = "question_id"))
-    @Column(name = "type")
-    private List<String> types; // 유형 리스트
+    @Column(nullable = false)
+    private String description;
 
     @Column(nullable = false)
     private String difficulty; // 난이도
 
     @Column(nullable = false)
     private Integer score; // 배점
+
+    @Column(nullable = false)
+    private boolean isActive;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -48,6 +49,7 @@ public class Question {
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = this.createdAt;
+        this.isActive = true;
     }
 
     @PreUpdate
