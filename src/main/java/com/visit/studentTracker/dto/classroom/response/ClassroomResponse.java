@@ -12,10 +12,11 @@ import java.util.List;
 @Builder
 public class ClassroomResponse {
     private Long uid;
-    private String className;
-    private Long teacherId;
-    private String teacherName;
+    private String classroomName;
+    private List<Long> teacherIds;
+    private List<String> teacherNames;
     private List<Long> studentIds;
+    private List<String> studentNames;
     private String description;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

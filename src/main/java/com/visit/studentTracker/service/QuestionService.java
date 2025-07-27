@@ -30,11 +30,12 @@ public class QuestionService {
 
         Question question = Question.builder()
                 .number(dto.getNumber())
+                .mainTopic(dto.getMainTopic())
+                .subTopic(dto.getSubTopic())
                 .description(dto.getDescription())
-                .unit(dto.getUnit())
-                .types(dto.getTypes())
                 .difficulty(dto.getDifficulty())
                 .score(dto.getScore())
+                .isActive(true)
                 .build();
 
         return toResponse(questionRepository.save(question));
@@ -57,10 +58,19 @@ public class QuestionService {
                 .collect(Collectors.toList());
     }
 
-    // READ (단원별 문제 목록)
+    // READ (주제별 문제 목록)
     @Transactional(readOnly = true)
-    public List<QuestionResponse> getQuestionsByUnit(String unit) {
-        return questionRepository.findByUnit(unit)
+    public List<QuestionResponse> getQuestionsByMainTopic(String mainTopic) {
+        return questionRepository.findByMainTopic(mainTopic)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    // READ (하위 주제별 문제 목록)
+    @Transactional(readOnly = true)
+    public List<QuestionResponse> getQuestionsBySubTopic(String subTopic) {
+        return questionRepository.findBySubTopic(subTopic)
                 .stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
@@ -75,10 +85,20 @@ public class QuestionService {
                 .collect(Collectors.toList());
     }
 
-    // READ (단원 및 난이도별 문제 목록)
+    // READ (주제 및 하위 주제별 문제 목록)
     @Transactional(readOnly = true)
-    public List<QuestionResponse> getQuestionsByUnitAndDifficulty(String unit, String difficulty) {
-        return questionRepository.findByUnitAndDifficulty(unit, difficulty)
+    public List<QuestionResponse> getQuestionsByMainTopicAndSubTopic(String mainTopic, String subTopic) {
+        return questionRepository.findByMainTopicAndSubTopic(mainTopic, subTopic)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    // READ (주제, 하위 주제 및 난이도별 문제 목록)
+    @Transactional(readOnly = true)
+    public List<QuestionResponse> getQuestionsByMainTopicAndSubTopicAndDifficulty(String mainTopic, String subTopic,
+            String difficulty) {
+        return questionRepository.findByMainTopicAndSubTopicAndDifficulty(mainTopic, subTopic, difficulty)
                 .stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
@@ -90,16 +110,23 @@ public class QuestionService {
         Question question = questionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 문제를 찾을 수 없습니다."));
 
+        if (dto.getNumber() != null && !dto.getNumber().equals(question.getNumber())) {
+            if (questionRepository.existsByNumber(dto.getNumber())) {
+                throw new IllegalArgumentException("이미 존재하는 문제 번호입니다.");
+            }
+            question.setNumber(dto.getNumber());
+        }
+
+        if (dto.getMainTopic() != null) {
+            question.setMainTopic(dto.getMainTopic());
+        }
+
+        if (dto.getSubTopic() != null) {
+            question.setSubTopic(dto.getSubTopic());
+        }
+
         if (dto.getDescription() != null) {
             question.setDescription(dto.getDescription());
-        }
-
-        if (dto.getUnit() != null) {
-            question.setUnit(dto.getUnit());
-        }
-
-        if (dto.getTypes() != null) {
-            question.setTypes(dto.getTypes());
         }
 
         if (dto.getDifficulty() != null) {
@@ -129,11 +156,12 @@ public class QuestionService {
         return QuestionResponse.builder()
                 .uid(question.getUid())
                 .number(question.getNumber())
+                .mainTopic(question.getMainTopic())
+                .subTopic(question.getSubTopic())
                 .description(question.getDescription())
-                .unit(question.getUnit())
-                .types(question.getTypes())
                 .difficulty(question.getDifficulty())
                 .score(question.getScore())
+                .isActive(question.isActive())
                 .createdAt(question.getCreatedAt())
                 .updatedAt(question.getUpdatedAt())
                 .build();

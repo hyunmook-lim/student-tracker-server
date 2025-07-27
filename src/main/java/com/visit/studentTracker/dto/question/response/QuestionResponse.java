@@ -3,7 +3,6 @@ package com.visit.studentTracker.dto.question.response;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -13,11 +12,12 @@ import java.util.List;
 public class QuestionResponse {
     private Long uid;
     private Integer number;
+    private String mainTopic;
+    private String subTopic;
     private String description;
-    private String unit;
-    private List<String> types;
     private String difficulty;
     private Integer score;
+    private boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

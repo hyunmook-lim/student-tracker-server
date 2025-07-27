@@ -11,9 +11,13 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     Optional<Question> findByNumber(Integer number);
 
-    List<Question> findByUnit(String unit);
+    List<Question> findByMainTopic(String mainTopic);
+
+    List<Question> findBySubTopic(String subTopic);
 
     List<Question> findByDifficulty(String difficulty);
 
-    List<Question> findByUnitAndDifficulty(String unit, String difficulty);
+    List<Question> findByMainTopicAndSubTopic(String mainTopic, String subTopic);
+
+    List<Question> findByMainTopicAndSubTopicAndDifficulty(String mainTopic, String subTopic, String difficulty);
 }

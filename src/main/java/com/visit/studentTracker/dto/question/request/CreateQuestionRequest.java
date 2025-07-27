@@ -2,8 +2,6 @@ package com.visit.studentTracker.dto.question.request;
 
 import lombok.*;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -11,9 +9,9 @@ import java.util.List;
 @Builder
 public class CreateQuestionRequest {
     private Integer number;
+    private String mainTopic;
+    private String subTopic;
     private String description;
-    private String unit;
-    private List<String> types;
     private String difficulty;
     private Integer score;
 }

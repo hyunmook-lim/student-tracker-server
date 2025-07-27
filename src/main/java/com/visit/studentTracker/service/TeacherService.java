@@ -32,10 +32,7 @@ public class TeacherService {
                 .loginId(dto.getLoginId())
                 .password(dto.getPassword()) // 추후 BCrypt 암호화 예정
                 .name(dto.getName())
-                .email(dto.getEmail())
                 .phone(dto.getPhone())
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
                 .isActive(true)
                 .build();
 
@@ -65,9 +62,12 @@ public class TeacherService {
         Teacher teacher = teacherRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 선생님을 찾을 수 없습니다."));
 
-        teacher.setName(dto.getName());
-        teacher.setEmail(dto.getEmail());
-        teacher.setPhone(dto.getPhone());
+        if (dto.getName() != null) {
+            teacher.setName(dto.getName());
+        }
+        if (dto.getPhone() != null) {
+            teacher.setPhone(dto.getPhone());
+        }
         teacher.setUpdatedAt(LocalDateTime.now());
 
         return toResponse(teacher);
@@ -88,8 +88,11 @@ public class TeacherService {
                 .uid(teacher.getUid())
                 .loginId(teacher.getLoginId())
                 .name(teacher.getName())
-                .email(teacher.getEmail())
                 .phone(teacher.getPhone())
+                .isActive(teacher.isActive())
+                .createdAt(teacher.getCreatedAt())
+                .updatedAt(teacher.getUpdatedAt())
+                .lastLoginAt(teacher.getLastLoginAt())
                 .build();
     }
 }

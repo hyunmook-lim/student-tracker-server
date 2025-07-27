@@ -12,6 +12,10 @@ import lombok.*;
 @Entity
 @Table(name = "student_classrooms")
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class StudentClassroom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class CreateClassroomRequest {
-    private String className;
+    private String classroomName;
     private Long teacherId;
     private String description;
 }

@@ -20,7 +20,7 @@ public class Classroom {
     private Long uid;
 
     @Column(nullable = false, unique = true)
-    private String className;
+    private String classroomName;
 
     @Column
     private String description;

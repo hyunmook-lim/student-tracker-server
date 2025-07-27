@@ -37,10 +37,16 @@ public class QuestionController {
         return ResponseEntity.ok(questionService.getAllQuestions());
     }
 
-    // READ (단원별 문제 목록)
-    @GetMapping("/unit/{unit}")
-    public ResponseEntity<List<QuestionResponse>> getQuestionsByUnit(@PathVariable String unit) {
-        return ResponseEntity.ok(questionService.getQuestionsByUnit(unit));
+    // READ (주제별 문제 목록)
+    @GetMapping("/main-topic/{mainTopic}")
+    public ResponseEntity<List<QuestionResponse>> getQuestionsByMainTopic(@PathVariable String mainTopic) {
+        return ResponseEntity.ok(questionService.getQuestionsByMainTopic(mainTopic));
+    }
+
+    // READ (하위 주제별 문제 목록)
+    @GetMapping("/sub-topic/{subTopic}")
+    public ResponseEntity<List<QuestionResponse>> getQuestionsBySubTopic(@PathVariable String subTopic) {
+        return ResponseEntity.ok(questionService.getQuestionsBySubTopic(subTopic));
     }
 
     // READ (난이도별 문제 목록)
@@ -49,12 +55,22 @@ public class QuestionController {
         return ResponseEntity.ok(questionService.getQuestionsByDifficulty(difficulty));
     }
 
-    // READ (단원 및 난이도별 문제 목록)
-    @GetMapping("/unit/{unit}/difficulty/{difficulty}")
-    public ResponseEntity<List<QuestionResponse>> getQuestionsByUnitAndDifficulty(
-            @PathVariable String unit,
+    // READ (주제 및 하위 주제별 문제 목록)
+    @GetMapping("/main-topic/{mainTopic}/sub-topic/{subTopic}")
+    public ResponseEntity<List<QuestionResponse>> getQuestionsByMainTopicAndSubTopic(
+            @PathVariable String mainTopic,
+            @PathVariable String subTopic) {
+        return ResponseEntity.ok(questionService.getQuestionsByMainTopicAndSubTopic(mainTopic, subTopic));
+    }
+
+    // READ (주제, 하위 주제 및 난이도별 문제 목록)
+    @GetMapping("/main-topic/{mainTopic}/sub-topic/{subTopic}/difficulty/{difficulty}")
+    public ResponseEntity<List<QuestionResponse>> getQuestionsByMainTopicAndSubTopicAndDifficulty(
+            @PathVariable String mainTopic,
+            @PathVariable String subTopic,
             @PathVariable String difficulty) {
-        return ResponseEntity.ok(questionService.getQuestionsByUnitAndDifficulty(unit, difficulty));
+        return ResponseEntity
+                .ok(questionService.getQuestionsByMainTopicAndSubTopicAndDifficulty(mainTopic, subTopic, difficulty));
     }
 
     // UPDATE

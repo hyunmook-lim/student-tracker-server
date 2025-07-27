@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface ClassroomRepository extends JpaRepository<Classroom, Long> {
-    boolean existsByClassName(String className);
+    boolean existsByClassroomName(String classroomName);
 
-    Optional<Classroom> findByClassName(String className);
+    Optional<Classroom> findByClassroomName(String classroomName);
 }

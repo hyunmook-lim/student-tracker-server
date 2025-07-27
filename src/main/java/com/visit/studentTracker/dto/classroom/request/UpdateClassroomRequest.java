@@ -8,6 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class UpdateClassroomRequest {
-    private String className;
+    private String classroomName;
     private String description;
 }

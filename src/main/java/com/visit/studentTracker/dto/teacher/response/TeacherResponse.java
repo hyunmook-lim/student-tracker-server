@@ -1,6 +1,7 @@
 package com.visit.studentTracker.dto.teacher.response;
 
 import lombok.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -11,6 +12,9 @@ public class TeacherResponse {
     private Long uid;
     private String loginId;
     private String name;
-    private String email;
     private String phone;
+    private boolean isActive;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private LocalDateTime lastLoginAt;
 }

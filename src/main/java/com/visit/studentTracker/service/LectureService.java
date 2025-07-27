@@ -108,7 +108,8 @@ public class LectureService {
                 .lectureName(lecture.getLectureName())
                 .description(lecture.getDescription())
                 .classroomId(lecture.getClassroom().getUid())
-                .className(lecture.getClassroom().getClassName())
+                .className(lecture.getClassroom().getClassroomName())
+                .isActive(lecture.isActive())
                 .createdAt(lecture.getCreatedAt())
                 .updatedAt(lecture.getUpdatedAt())
                 .build();
