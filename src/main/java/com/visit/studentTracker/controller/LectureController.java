@@ -44,7 +44,7 @@ public class LectureController {
     }
 
     // UPDATE
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<LectureResponse> updateLecture(
             @PathVariable Long id,
             @RequestBody UpdateLectureRequest dto) {

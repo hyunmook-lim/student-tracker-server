@@ -2,6 +2,7 @@ package com.visit.studentTracker.service;
 
 import com.visit.studentTracker.dto.teacher.request.CreateTeacherRequest;
 import com.visit.studentTracker.dto.teacher.request.UpdateTeacherRequest;
+import com.visit.studentTracker.dto.teacher.request.TeacherLoginRequest;
 import com.visit.studentTracker.dto.teacher.response.TeacherResponse;
 import com.visit.studentTracker.entity.Teacher;
 import com.visit.studentTracker.repository.TeacherRepository;
@@ -80,6 +81,27 @@ public class TeacherService {
             throw new IllegalArgumentException("해당 선생님을 찾을 수 없습니다.");
         }
         teacherRepository.deleteById(id);
+    }
+
+    // LOGIN
+    @Transactional
+    public TeacherResponse loginTeacher(TeacherLoginRequest dto) {
+        Teacher teacher = teacherRepository.findByLoginId(dto.getLoginId())
+                .orElseThrow(() -> new IllegalArgumentException("로그인 아이디 또는 비밀번호가 올바르지 않습니다."));
+
+        if (!teacher.isActive()) {
+            throw new IllegalArgumentException("비활성화된 계정입니다.");
+        }
+
+        if (!teacher.getPassword().equals(dto.getPassword())) {
+            throw new IllegalArgumentException("로그인 아이디 또는 비밀번호가 올바르지 않습니다.");
+        }
+
+        // 마지막 로그인 시간 업데이트
+        teacher.setLastLoginAt(LocalDateTime.now());
+        teacherRepository.save(teacher);
+
+        return toResponse(teacher);
     }
 
     // DTO 변환 메서드

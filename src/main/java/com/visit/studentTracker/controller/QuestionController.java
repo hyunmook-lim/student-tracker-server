@@ -74,7 +74,7 @@ public class QuestionController {
     }
 
     // UPDATE
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<QuestionResponse> updateQuestion(
             @PathVariable Long id,
             @RequestBody UpdateQuestionRequest dto) {

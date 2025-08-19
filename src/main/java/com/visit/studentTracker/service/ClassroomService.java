@@ -75,6 +75,15 @@ public class ClassroomService {
                 .collect(Collectors.toList());
     }
 
+    // READ (선생님별 반 목록)
+    @Transactional(readOnly = true)
+    public List<ClassroomResponse> getClassroomsByTeacher(Long teacherId) {
+        List<TeacherClassroom> teacherClassrooms = teacherClassroomRepository.findByTeacherUid(teacherId);
+        return teacherClassrooms.stream()
+                .map(tc -> toResponse(tc.getClassroom()))
+                .collect(Collectors.toList());
+    }
+
     // UPDATE
     @Transactional
     public ClassroomResponse updateClassroom(Long id, UpdateClassroomRequest dto) {

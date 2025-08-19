@@ -51,4 +51,8 @@ public class Teacher {
         this.updatedAt = this.createdAt;
         this.isActive = true;
     }
+
+    public void setLastLoginAt(LocalDateTime lastLoginAt) {
+        this.lastLoginAt = lastLoginAt;
+    }
 }

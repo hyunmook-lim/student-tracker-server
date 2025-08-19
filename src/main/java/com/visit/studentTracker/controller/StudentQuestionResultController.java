@@ -30,7 +30,7 @@ public class StudentQuestionResultController {
     }
 
     // 학생 문제 결과 수정
-    @PutMapping("/{studentId}/questions/{questionId}")
+    @PatchMapping("/{studentId}/questions/{questionId}")
     public ResponseEntity<StudentQuestionResult> updateQuestionResult(
             @PathVariable Long studentId,
             @PathVariable Long questionId,
