@@ -1,6 +1,7 @@
 package com.visit.studentTracker.service;
 
 import com.visit.studentTracker.dto.question.request.CreateQuestionRequest;
+import com.visit.studentTracker.dto.question.request.CreateQuestionsRequest;
 import com.visit.studentTracker.dto.question.request.UpdateQuestionRequest;
 import com.visit.studentTracker.dto.question.response.QuestionResponse;
 import com.visit.studentTracker.entity.Question;
@@ -32,13 +33,42 @@ public class QuestionService {
                 .number(dto.getNumber())
                 .mainTopic(dto.getMainTopic())
                 .subTopic(dto.getSubTopic())
-                .description(dto.getDescription())
+                .answer(dto.getAnswer())
                 .difficulty(dto.getDifficulty())
                 .score(dto.getScore())
                 .isActive(true)
                 .build();
 
         return toResponse(questionRepository.save(question));
+    }
+
+    // CREATE BULK
+    @Transactional
+    public List<QuestionResponse> createQuestions(CreateQuestionsRequest dto) {
+        List<Integer> requestNumbers = dto.getQuestions().stream()
+                .map(CreateQuestionRequest::getNumber)
+                .collect(Collectors.toList());
+        
+        List<Integer> existingNumbers = questionRepository.findNumbersByNumbers(requestNumbers);
+        if (!existingNumbers.isEmpty()) {
+            throw new IllegalArgumentException("이미 존재하는 문제 번호가 있습니다: " + existingNumbers);
+        }
+
+        List<Question> questions = dto.getQuestions().stream()
+                .map(questionDto -> Question.builder()
+                        .number(questionDto.getNumber())
+                        .mainTopic(questionDto.getMainTopic())
+                        .subTopic(questionDto.getSubTopic())
+                        .answer(questionDto.getAnswer())
+                        .difficulty(questionDto.getDifficulty())
+                        .score(questionDto.getScore())
+                        .isActive(true)
+                        .build())
+                .collect(Collectors.toList());
+
+        return questionRepository.saveAll(questions).stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 
     // READ (단건)
@@ -125,8 +155,8 @@ public class QuestionService {
             question.setSubTopic(dto.getSubTopic());
         }
 
-        if (dto.getDescription() != null) {
-            question.setDescription(dto.getDescription());
+        if (dto.getAnswer() != null) {
+            question.setAnswer(dto.getAnswer());
         }
 
         if (dto.getDifficulty() != null) {
@@ -158,7 +188,7 @@ public class QuestionService {
                 .number(question.getNumber())
                 .mainTopic(question.getMainTopic())
                 .subTopic(question.getSubTopic())
-                .description(question.getDescription())
+                .answer(question.getAnswer())
                 .difficulty(question.getDifficulty())
                 .score(question.getScore())
                 .isActive(question.isActive())

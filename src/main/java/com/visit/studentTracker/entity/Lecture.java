@@ -23,6 +23,9 @@ public class Lecture {
     @Column
     private String description;
 
+    @Column(nullable = false)
+    private LocalDateTime lectureDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "classroom_id", nullable = false)
     private Classroom classroom;

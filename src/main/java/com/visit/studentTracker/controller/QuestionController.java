@@ -1,6 +1,7 @@
 package com.visit.studentTracker.controller;
 
 import com.visit.studentTracker.dto.question.request.CreateQuestionRequest;
+import com.visit.studentTracker.dto.question.request.CreateQuestionsRequest;
 import com.visit.studentTracker.dto.question.request.UpdateQuestionRequest;
 import com.visit.studentTracker.dto.question.response.QuestionResponse;
 import com.visit.studentTracker.service.QuestionService;
@@ -23,6 +24,12 @@ public class QuestionController {
     @PostMapping
     public ResponseEntity<QuestionResponse> createQuestion(@RequestBody CreateQuestionRequest dto) {
         return ResponseEntity.ok(questionService.createQuestion(dto));
+    }
+
+    // CREATE BULK
+    @PostMapping("/bulk")
+    public ResponseEntity<List<QuestionResponse>> createQuestions(@RequestBody CreateQuestionsRequest dto) {
+        return ResponseEntity.ok(questionService.createQuestions(dto));
     }
 
     // READ (단건)

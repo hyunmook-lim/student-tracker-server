@@ -5,8 +5,10 @@ import com.visit.studentTracker.dto.lecture.request.UpdateLectureRequest;
 import com.visit.studentTracker.dto.lecture.response.LectureResponse;
 import com.visit.studentTracker.entity.Lecture;
 import com.visit.studentTracker.entity.Classroom;
+import com.visit.studentTracker.entity.Question;
 import com.visit.studentTracker.repository.LectureRepository;
 import com.visit.studentTracker.repository.ClassroomRepository;
+import com.visit.studentTracker.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,30 +21,54 @@ public class LectureService {
 
     private final LectureRepository lectureRepository;
     private final ClassroomRepository classroomRepository;
+    private final QuestionRepository questionRepository;
 
-    public LectureService(LectureRepository lectureRepository, ClassroomRepository classroomRepository) {
+    public LectureService(LectureRepository lectureRepository, ClassroomRepository classroomRepository, QuestionRepository questionRepository) {
         this.lectureRepository = lectureRepository;
         this.classroomRepository = classroomRepository;
+        this.questionRepository = questionRepository;
     }
 
     // CREATE
     @Transactional
     public LectureResponse createLecture(CreateLectureRequest dto) {
-        if (lectureRepository.existsByLectureName(dto.getLectureName())) {
-            throw new IllegalArgumentException("이미 존재하는 강의명입니다.");
-        }
-
         Classroom classroom = classroomRepository.findById(dto.getClassroomId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 반을 찾을 수 없습니다."));
 
         Lecture lecture = Lecture.builder()
                 .lectureName(dto.getLectureName())
                 .description(dto.getDescription())
+                .lectureDate(dto.getLectureDate())
                 .classroom(classroom)
                 .build();
 
-        return toResponse(lectureRepository.save(lecture));
+        Lecture savedLecture = lectureRepository.save(lecture);
+
+        try {
+            // 문제 벌크 생성
+            if (dto.getQuestions() != null && !dto.getQuestions().isEmpty()) {
+                List<Question> questions = dto.getQuestions().stream()
+                        .map(questionDto -> Question.builder()
+                                .number(questionDto.getNumber())
+                                .mainTopic(questionDto.getMainTopic())
+                                .subTopic(questionDto.getSubTopic())
+                                .answer(questionDto.getAnswer())
+                                .difficulty(questionDto.getDifficulty())
+                                .score(questionDto.getScore())
+                                .isActive(true)
+                                .build())
+                        .collect(Collectors.toList());
+
+                questionRepository.saveAll(questions);
+            }
+        } catch (Exception e) {
+            // 문제 생성 실패 시 트랜잭션 롤백을 위해 런타임 예외로 변환
+            throw new RuntimeException("문제 생성 중 오류가 발생했습니다: " + e.getMessage(), e);
+        }
+
+        return toResponse(savedLecture);
     }
+
 
     // READ (단건)
     @Transactional(readOnly = true)
@@ -76,15 +102,16 @@ public class LectureService {
         Lecture lecture = lectureRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 강의를 찾을 수 없습니다."));
 
-        if (dto.getLectureName() != null && !dto.getLectureName().equals(lecture.getLectureName())) {
-            if (lectureRepository.existsByLectureName(dto.getLectureName())) {
-                throw new IllegalArgumentException("이미 존재하는 강의명입니다.");
-            }
+        if (dto.getLectureName() != null) {
             lecture.setLectureName(dto.getLectureName());
         }
 
         if (dto.getDescription() != null) {
             lecture.setDescription(dto.getDescription());
+        }
+
+        if (dto.getLectureDate() != null) {
+            lecture.setLectureDate(dto.getLectureDate());
         }
 
         lecture.setUpdatedAt(LocalDateTime.now());
@@ -107,6 +134,7 @@ public class LectureService {
                 .uid(lecture.getUid())
                 .lectureName(lecture.getLectureName())
                 .description(lecture.getDescription())
+                .lectureDate(lecture.getLectureDate())
                 .classroomId(lecture.getClassroom().getUid())
                 .className(lecture.getClassroom().getClassroomName())
                 .isActive(lecture.isActive())

@@ -13,6 +13,7 @@ public class LectureResponse {
     private Long uid;
     private String lectureName;
     private String description;
+    private LocalDateTime lectureDate;
     private Long classroomId;
     private String className;
     private boolean isActive;

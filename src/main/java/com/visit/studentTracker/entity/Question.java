@@ -27,7 +27,7 @@ public class Question {
     private String subTopic;
 
     @Column(nullable = false)
-    private String description;
+    private String answer;
 
     @Column(nullable = false)
     private String difficulty; // 난이도

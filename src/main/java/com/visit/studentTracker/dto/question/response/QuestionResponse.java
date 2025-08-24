@@ -14,7 +14,7 @@ public class QuestionResponse {
     private Integer number;
     private String mainTopic;
     private String subTopic;
-    private String description;
+    private String answer;
     private String difficulty;
     private Integer score;
     private boolean isActive;

@@ -25,6 +25,7 @@ public class LectureController {
         return ResponseEntity.ok(lectureService.createLecture(dto));
     }
 
+
     // READ (단건)
     @GetMapping("/{id}")
     public ResponseEntity<LectureResponse> getLecture(@PathVariable Long id) {

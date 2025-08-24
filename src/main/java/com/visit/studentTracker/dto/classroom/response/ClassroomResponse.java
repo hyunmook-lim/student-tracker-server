@@ -17,6 +17,8 @@ public class ClassroomResponse {
     private List<String> teacherNames;
     private List<Long> studentIds;
     private List<String> studentNames;
+    private List<Long> lectureIds;
+    private List<String> lectureNames;
     private String description;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
