@@ -35,6 +35,10 @@ public class Question {
     @Column(nullable = false)
     private Integer score; // 배점
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lecture_id", nullable = false)
+    private Lecture lecture;
+
     @Column(nullable = false)
     private boolean isActive;
 

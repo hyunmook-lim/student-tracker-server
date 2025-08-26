@@ -14,4 +14,5 @@ public class CreateQuestionRequest {
     private String answer;
     private String difficulty;
     private Integer score;
+    private Long lectureId;
 }

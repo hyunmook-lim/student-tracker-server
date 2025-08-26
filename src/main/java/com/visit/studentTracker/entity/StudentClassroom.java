@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 import lombok.*;
 
 @Entity
@@ -28,4 +30,7 @@ public class StudentClassroom {
     @ManyToOne
     @JoinColumn(name = "classroom_id")
     private Classroom classroom;
+
+    @Enumerated(EnumType.STRING)
+    private StudentClassroomStatus status;
 }

@@ -80,6 +80,36 @@ public class QuestionController {
                 .ok(questionService.getQuestionsByMainTopicAndSubTopicAndDifficulty(mainTopic, subTopic, difficulty));
     }
 
+    // READ (강의별 문제 목록)
+    @GetMapping("/lecture/{lectureId}")
+    public ResponseEntity<List<QuestionResponse>> getQuestionsByLecture(@PathVariable Long lectureId) {
+        return ResponseEntity.ok(questionService.getQuestionsByLecture(lectureId));
+    }
+
+    // READ (강의별 난이도별 문제 목록)
+    @GetMapping("/lecture/{lectureId}/difficulty/{difficulty}")
+    public ResponseEntity<List<QuestionResponse>> getQuestionsByLectureAndDifficulty(
+            @PathVariable Long lectureId,
+            @PathVariable String difficulty) {
+        return ResponseEntity.ok(questionService.getQuestionsByLectureAndDifficulty(lectureId, difficulty));
+    }
+
+    // READ (강의별 주제별 문제 목록)
+    @GetMapping("/lecture/{lectureId}/main-topic/{mainTopic}")
+    public ResponseEntity<List<QuestionResponse>> getQuestionsByLectureAndMainTopic(
+            @PathVariable Long lectureId,
+            @PathVariable String mainTopic) {
+        return ResponseEntity.ok(questionService.getQuestionsByLectureAndMainTopic(lectureId, mainTopic));
+    }
+
+    // READ (강의별 하위 주제별 문제 목록)
+    @GetMapping("/lecture/{lectureId}/sub-topic/{subTopic}")
+    public ResponseEntity<List<QuestionResponse>> getQuestionsByLectureAndSubTopic(
+            @PathVariable Long lectureId,
+            @PathVariable String subTopic) {
+        return ResponseEntity.ok(questionService.getQuestionsByLectureAndSubTopic(lectureId, subTopic));
+    }
+
     // UPDATE
     @PatchMapping("/{id}")
     public ResponseEntity<QuestionResponse> updateQuestion(

@@ -3,6 +3,7 @@ package com.visit.studentTracker.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "lectures")
@@ -35,6 +36,9 @@ public class Lecture {
 
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> questions;
 
     @Column(nullable = false)
     private boolean isActive;

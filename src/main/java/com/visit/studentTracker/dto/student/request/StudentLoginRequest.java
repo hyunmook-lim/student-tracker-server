@@ -7,8 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UpdateStudentRequest {
-    private String name;
-    private String phone;
-    private Long classroomId;
+public class StudentLoginRequest {
+    private String loginId;
+    private String password;
 }

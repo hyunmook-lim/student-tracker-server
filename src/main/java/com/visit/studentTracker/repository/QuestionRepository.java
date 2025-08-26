@@ -25,4 +25,12 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     
     @Query("SELECT q.number FROM Question q WHERE q.number IN :numbers")
     List<Integer> findNumbersByNumbers(@Param("numbers") List<Integer> numbers);
+    
+    List<Question> findByLectureUid(Long lectureUid);
+    
+    List<Question> findByLectureUidAndDifficulty(Long lectureUid, String difficulty);
+    
+    List<Question> findByLectureUidAndMainTopic(Long lectureUid, String mainTopic);
+    
+    List<Question> findByLectureUidAndSubTopic(Long lectureUid, String subTopic);
 }

@@ -17,6 +17,8 @@ public class QuestionResponse {
     private String answer;
     private String difficulty;
     private Integer score;
+    private Long lectureId;
+    private String lectureName;
     private boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

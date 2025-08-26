@@ -28,6 +28,9 @@ public class Student {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String phone;
+
     @Builder.Default
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<StudentClassroom> studentClassroomList = new ArrayList<>();
@@ -47,6 +50,6 @@ public class Student {
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = this.createdAt;
-        this.isActive = false;
+        this.isActive = true;
     }
 }

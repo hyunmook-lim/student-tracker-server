@@ -2,6 +2,7 @@ package com.visit.studentTracker.controller;
 
 import com.visit.studentTracker.dto.student.request.CreateStudentRequest;
 import com.visit.studentTracker.dto.student.request.UpdateStudentRequest;
+import com.visit.studentTracker.dto.student.request.StudentLoginRequest;
 import com.visit.studentTracker.dto.student.response.StudentResponse;
 import com.visit.studentTracker.service.StudentService;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,12 @@ public class StudentController {
     @PostMapping
     public ResponseEntity<StudentResponse> createStudent(@RequestBody CreateStudentRequest dto) {
         return ResponseEntity.ok(studentService.createStudent(dto));
+    }
+
+    // LOGIN
+    @PostMapping("/login")
+    public ResponseEntity<StudentResponse> loginStudent(@RequestBody StudentLoginRequest dto) {
+        return ResponseEntity.ok(studentService.loginStudent(dto));
     }
 
     // READ (단건)

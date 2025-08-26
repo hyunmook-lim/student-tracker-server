@@ -55,6 +55,7 @@ public class LectureService {
                                 .answer(questionDto.getAnswer())
                                 .difficulty(questionDto.getDifficulty())
                                 .score(questionDto.getScore())
+                                .lecture(savedLecture)
                                 .isActive(true)
                                 .build())
                         .collect(Collectors.toList());

@@ -14,6 +14,7 @@ public class StudentResponse {
     private Long uid;
     private String loginId;
     private String name;
+    private String phone;
     private List<Long> classroomIds;
     private List<String> classroomNames;
     private boolean isActive;

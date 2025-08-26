@@ -2,6 +2,7 @@ package com.visit.studentTracker.service;
 
 import com.visit.studentTracker.dto.student.request.CreateStudentRequest;
 import com.visit.studentTracker.dto.student.request.UpdateStudentRequest;
+import com.visit.studentTracker.dto.student.request.StudentLoginRequest;
 import com.visit.studentTracker.dto.student.response.StudentResponse;
 import com.visit.studentTracker.entity.Student;
 import com.visit.studentTracker.entity.Classroom;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -42,6 +44,7 @@ public class StudentService {
                 .loginId(dto.getLoginId())
                 .password(dto.getPassword()) // 추후 BCrypt 암호화 예정
                 .name(dto.getName())
+                .phone(dto.getPhone())
                 .isActive(false)
                 .build();
 
@@ -58,6 +61,24 @@ public class StudentService {
                     .build();
             studentClassroomRepository.save(studentClassroom);
         }
+
+        return toResponse(student);
+    }
+
+    // LOGIN
+    @Transactional
+    public StudentResponse loginStudent(StudentLoginRequest dto) {
+        Student student = studentRepository.findByLoginId(dto.getLoginId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로그인 아이디입니다."));
+
+        if (!student.getPassword().equals(dto.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        // 로그인 시간 업데이트
+        student.setLastLoginAt(LocalDateTime.now());
+        student.setActive(true);
+        student = studentRepository.save(student);
 
         return toResponse(student);
     }
@@ -87,6 +108,10 @@ public class StudentService {
 
         if (dto.getName() != null) {
             student.setName(dto.getName());
+        }
+
+        if (dto.getPhone() != null) {
+            student.setPhone(dto.getPhone());
         }
 
         if (dto.getClassroomId() != null) {
@@ -133,6 +158,7 @@ public class StudentService {
                 .uid(student.getUid())
                 .loginId(student.getLoginId())
                 .name(student.getName())
+                .phone(student.getPhone())
                 .classroomIds(classroomIds)
                 .classroomNames(classroomNames)
                 .isActive(student.isActive())

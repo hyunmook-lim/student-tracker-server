@@ -4,7 +4,9 @@ import com.visit.studentTracker.dto.question.request.CreateQuestionRequest;
 import com.visit.studentTracker.dto.question.request.CreateQuestionsRequest;
 import com.visit.studentTracker.dto.question.request.UpdateQuestionRequest;
 import com.visit.studentTracker.dto.question.response.QuestionResponse;
+import com.visit.studentTracker.entity.Lecture;
 import com.visit.studentTracker.entity.Question;
+import com.visit.studentTracker.repository.LectureRepository;
 import com.visit.studentTracker.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +19,11 @@ import java.util.stream.Collectors;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final LectureRepository lectureRepository;
 
-    public QuestionService(QuestionRepository questionRepository) {
+    public QuestionService(QuestionRepository questionRepository, LectureRepository lectureRepository) {
         this.questionRepository = questionRepository;
+        this.lectureRepository = lectureRepository;
     }
 
     // CREATE
@@ -29,6 +33,9 @@ public class QuestionService {
             throw new IllegalArgumentException("이미 존재하는 문제 번호입니다.");
         }
 
+        Lecture lecture = lectureRepository.findById(dto.getLectureId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 강의를 찾을 수 없습니다."));
+
         Question question = Question.builder()
                 .number(dto.getNumber())
                 .mainTopic(dto.getMainTopic())
@@ -36,6 +43,7 @@ public class QuestionService {
                 .answer(dto.getAnswer())
                 .difficulty(dto.getDifficulty())
                 .score(dto.getScore())
+                .lecture(lecture)
                 .isActive(true)
                 .build();
 
@@ -55,15 +63,21 @@ public class QuestionService {
         }
 
         List<Question> questions = dto.getQuestions().stream()
-                .map(questionDto -> Question.builder()
-                        .number(questionDto.getNumber())
-                        .mainTopic(questionDto.getMainTopic())
-                        .subTopic(questionDto.getSubTopic())
-                        .answer(questionDto.getAnswer())
-                        .difficulty(questionDto.getDifficulty())
-                        .score(questionDto.getScore())
-                        .isActive(true)
-                        .build())
+                .map(questionDto -> {
+                    Lecture lecture = lectureRepository.findById(questionDto.getLectureId())
+                            .orElseThrow(() -> new IllegalArgumentException("해당 강의를 찾을 수 없습니다."));
+                    
+                    return Question.builder()
+                            .number(questionDto.getNumber())
+                            .mainTopic(questionDto.getMainTopic())
+                            .subTopic(questionDto.getSubTopic())
+                            .answer(questionDto.getAnswer())
+                            .difficulty(questionDto.getDifficulty())
+                            .score(questionDto.getScore())
+                            .lecture(lecture)
+                            .isActive(true)
+                            .build();
+                })
                 .collect(Collectors.toList());
 
         return questionRepository.saveAll(questions).stream()
@@ -134,6 +148,42 @@ public class QuestionService {
                 .collect(Collectors.toList());
     }
 
+    // READ (강의별 문제 목록)
+    @Transactional(readOnly = true)
+    public List<QuestionResponse> getQuestionsByLecture(Long lectureId) {
+        return questionRepository.findByLectureUid(lectureId)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    // READ (강의별 난이도별 문제 목록)
+    @Transactional(readOnly = true)
+    public List<QuestionResponse> getQuestionsByLectureAndDifficulty(Long lectureId, String difficulty) {
+        return questionRepository.findByLectureUidAndDifficulty(lectureId, difficulty)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    // READ (강의별 주제별 문제 목록)
+    @Transactional(readOnly = true)
+    public List<QuestionResponse> getQuestionsByLectureAndMainTopic(Long lectureId, String mainTopic) {
+        return questionRepository.findByLectureUidAndMainTopic(lectureId, mainTopic)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    // READ (강의별 하위 주제별 문제 목록)
+    @Transactional(readOnly = true)
+    public List<QuestionResponse> getQuestionsByLectureAndSubTopic(Long lectureId, String subTopic) {
+        return questionRepository.findByLectureUidAndSubTopic(lectureId, subTopic)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
     // UPDATE
     @Transactional
     public QuestionResponse updateQuestion(Long id, UpdateQuestionRequest dto) {
@@ -167,6 +217,12 @@ public class QuestionService {
             question.setScore(dto.getScore());
         }
 
+        if (dto.getLectureId() != null) {
+            Lecture lecture = lectureRepository.findById(dto.getLectureId())
+                    .orElseThrow(() -> new IllegalArgumentException("해당 강의를 찾을 수 없습니다."));
+            question.setLecture(lecture);
+        }
+
         question.setUpdatedAt(LocalDateTime.now());
 
         return toResponse(question);
@@ -191,6 +247,8 @@ public class QuestionService {
                 .answer(question.getAnswer())
                 .difficulty(question.getDifficulty())
                 .score(question.getScore())
+                .lectureId(question.getLecture().getUid())
+                .lectureName(question.getLecture().getLectureName())
                 .isActive(question.isActive())
                 .createdAt(question.getCreatedAt())
                 .updatedAt(question.getUpdatedAt())
