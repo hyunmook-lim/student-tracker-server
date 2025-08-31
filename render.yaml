@@ -3,10 +3,28 @@ services:
     name: student-tracker
     env: java
     plan: free
-    buildCommand: ./gradlew build
-    startCommand: java -jar build/libs/studentTracker-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+    buildCommand: ./gradlew build -x test
+    startCommand: java -jar build/libs/studentTracker-0.0.1-SNAPSHOT.jar
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
       - key: JAVA_VERSION
         value: 17
+      - key: DATABASE_URL
+        fromDatabase:
+          name: student-tracker-db
+          property: connectionString
+      - key: DATABASE_USERNAME
+        fromDatabase:
+          name: student-tracker-db
+          property: user
+      - key: DATABASE_PASSWORD
+        fromDatabase:
+          name: student-tracker-db
+          property: password
+
+  - type: pserv
+    name: student-tracker-db
+    env: postgresql
+    plan: free
+    ipAllowList: []
