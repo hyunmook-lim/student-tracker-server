@@ -19,4 +19,10 @@ public interface StudentClassroomRepository extends JpaRepository<StudentClassro
     List<StudentClassroom> findByClassroomUidAndStatus(Long classroomId, StudentClassroomStatus status);
 
     List<StudentClassroom> findByStudentUidAndStatus(Long studentId, StudentClassroomStatus status);
+
+    // 학생이 듣고 있는 활성 수업 수 조회
+    long countByStudentUidAndStatus(Long studentId, StudentClassroomStatus status);
+
+    // 학생이 듣고 있는 전체 반 수 조회
+    long countByStudentUid(Long studentId);
 }

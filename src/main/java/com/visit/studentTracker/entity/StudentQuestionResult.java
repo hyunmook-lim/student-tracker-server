@@ -16,21 +16,16 @@ public class StudentQuestionResult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long uid;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_lecture_result_id", nullable = false)
+    private StudentLectureResult studentLectureResult;
 
-    @ManyToOne
-    @JoinColumn(name = "question_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
-    @ManyToOne
-    @JoinColumn(name = "lecture_id")
-    private Lecture lecture;
-
-    @ManyToOne
-    @JoinColumn(name = "classroom_id")
-    private Classroom classroom;
+    @Column(length = 500)
+    private String studentAnswer;
 
     @Column(nullable = false)
     private boolean isCorrect;

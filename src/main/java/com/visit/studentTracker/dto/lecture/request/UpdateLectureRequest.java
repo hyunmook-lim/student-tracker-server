@@ -12,4 +12,5 @@ public class UpdateLectureRequest {
     private String lectureName;
     private String description;
     private LocalDateTime lectureDate;
+    private Boolean isResultEntered;
 }

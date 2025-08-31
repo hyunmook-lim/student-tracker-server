@@ -115,6 +115,10 @@ public class LectureService {
             lecture.setLectureDate(dto.getLectureDate());
         }
 
+        if (dto.getIsResultEntered() != null) {
+            lecture.setResultEntered(dto.getIsResultEntered());
+        }
+
         lecture.setUpdatedAt(LocalDateTime.now());
 
         return toResponse(lecture);
@@ -139,6 +143,7 @@ public class LectureService {
                 .classroomId(lecture.getClassroom().getUid())
                 .className(lecture.getClassroom().getClassroomName())
                 .isActive(lecture.isActive())
+                .isResultEntered(lecture.isResultEntered())
                 .createdAt(lecture.getCreatedAt())
                 .updatedAt(lecture.getUpdatedAt())
                 .build();

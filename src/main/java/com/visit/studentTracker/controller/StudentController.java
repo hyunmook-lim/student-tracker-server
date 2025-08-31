@@ -4,6 +4,9 @@ import com.visit.studentTracker.dto.student.request.CreateStudentRequest;
 import com.visit.studentTracker.dto.student.request.UpdateStudentRequest;
 import com.visit.studentTracker.dto.student.request.StudentLoginRequest;
 import com.visit.studentTracker.dto.student.response.StudentResponse;
+import com.visit.studentTracker.dto.student.response.StudentAnalyticsResponse;
+import com.visit.studentTracker.dto.student.response.ClassroomStudentAnalyticsResponse;
+import com.visit.studentTracker.dto.student.response.StudentDashboardResponse;
 import com.visit.studentTracker.service.StudentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,5 +60,25 @@ public class StudentController {
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // 학생 분석 정보 조회
+    @GetMapping("/{studentId}/analytics")
+    public ResponseEntity<StudentAnalyticsResponse> getStudentAnalytics(@PathVariable Long studentId) {
+        return ResponseEntity.ok(studentService.getStudentAnalytics(studentId));
+    }
+
+    // 특정 수업에 대한 학생 분석 정보 조회
+    @GetMapping("/{studentId}/classrooms/{classroomId}/analytics")
+    public ResponseEntity<ClassroomStudentAnalyticsResponse> getClassroomStudentAnalytics(
+            @PathVariable Long studentId,
+            @PathVariable Long classroomId) {
+        return ResponseEntity.ok(studentService.getClassroomStudentAnalytics(studentId, classroomId));
+    }
+
+    // 학생 대시보드 정보 조회
+    @GetMapping("/{studentId}/dashboard")
+    public ResponseEntity<StudentDashboardResponse> getStudentDashboard(@PathVariable Long studentId) {
+        return ResponseEntity.ok(studentService.getStudentDashboard(studentId));
     }
 }

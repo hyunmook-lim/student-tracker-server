@@ -17,6 +17,7 @@ public class LectureResponse {
     private Long classroomId;
     private String className;
     private boolean isActive;
+    private boolean isResultEntered;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

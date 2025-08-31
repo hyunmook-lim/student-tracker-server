@@ -52,6 +52,17 @@ public class LectureController {
         return ResponseEntity.ok(lectureService.updateLecture(id, dto));
     }
 
+    // UPDATE - 결과 입력 완료 상태 변경
+    @PatchMapping("/{id}/result-status")
+    public ResponseEntity<LectureResponse> updateResultStatus(
+            @PathVariable Long id, 
+            @RequestParam boolean isResultEntered) {
+        UpdateLectureRequest dto = UpdateLectureRequest.builder()
+                .isResultEntered(isResultEntered)
+                .build();
+        return ResponseEntity.ok(lectureService.updateLecture(id, dto));
+    }
+
     // DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteLecture(@PathVariable Long id) {

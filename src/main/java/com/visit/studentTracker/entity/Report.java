@@ -6,30 +6,36 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "lectures")
+@Table(name = "reports")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Lecture {
+public class Report {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long uid;
 
     @Column(nullable = false)
-    private String lectureName;
+    private String reportTitle;
 
-    @Column
-    private String description;
-
-    @Column(nullable = false)
-    private LocalDateTime lectureDate;
+    @Column(columnDefinition = "TEXT")
+    private String reportDescription;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "classroom_id", nullable = false)
     private Classroom classroom;
+
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReportLecture> reportLectures;
+
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StudentReport> studentReports;
+
+    @Column(nullable = false)
+    private boolean isActive;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -37,21 +43,11 @@ public class Lecture {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Question> questions;
-
-    @Column(nullable = false)
-    private boolean isActive;
-
-    @Column(nullable = false)
-    private boolean isResultEntered;
-
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = this.createdAt;
         this.isActive = true;
-        this.isResultEntered = false;
     }
 
     @PreUpdate

@@ -23,10 +23,10 @@ public class StudentQuestionResultController {
             @RequestParam Long studentId,
             @RequestParam Long questionId,
             @RequestParam Long lectureId,
-            @RequestParam Long classroomId,
-            @RequestParam boolean isCorrect) {
+            @RequestParam boolean isCorrect,
+            @RequestParam(required = false) String studentAnswer) {
         return ResponseEntity.ok(studentQuestionResultService.saveQuestionResult(
-                studentId, questionId, lectureId, classroomId, isCorrect));
+                studentId, questionId, lectureId, isCorrect, studentAnswer));
     }
 
     // 학생 문제 결과 수정
@@ -76,5 +76,34 @@ public class StudentQuestionResultController {
     @GetMapping("/classrooms/{classroomId}")
     public ResponseEntity<List<StudentQuestionResult>> getResultsByClassroom(@PathVariable Long classroomId) {
         return ResponseEntity.ok(studentQuestionResultService.getResultsByClassroom(classroomId));
+    }
+
+    // 학생의 특정 강의 총점 조회
+    @GetMapping("/students/{studentId}/lectures/{lectureId}/score")
+    public ResponseEntity<Integer> getStudentTotalScore(
+            @PathVariable Long studentId, 
+            @PathVariable Long lectureId) {
+        return ResponseEntity.ok(studentQuestionResultService.calculateStudentTotalScore(studentId, lectureId));
+    }
+
+    // 강의의 반평균 점수 조회
+    @GetMapping("/lectures/{lectureId}/average")
+    public ResponseEntity<Double> getClassAverageScore(@PathVariable Long lectureId) {
+        return ResponseEntity.ok(studentQuestionResultService.calculateClassAverageScore(lectureId));
+    }
+
+    // 특정 강의에서 학생의 등수 조회
+    @GetMapping("/students/{studentId}/lectures/{lectureId}/rank")
+    public ResponseEntity<Integer> getStudentRank(
+            @PathVariable Long studentId, 
+            @PathVariable Long lectureId) {
+        return ResponseEntity.ok(studentQuestionResultService.calculateStudentRank(studentId, lectureId));
+    }
+
+    // 강의별 학생 점수 및 등수 리스트 조회
+    @GetMapping("/lectures/{lectureId}/rankings")
+    public ResponseEntity<List<StudentQuestionResultService.StudentScoreInfo>> getStudentRankings(
+            @PathVariable Long lectureId) {
+        return ResponseEntity.ok(studentQuestionResultService.getStudentScoresWithRanking(lectureId));
     }
 }

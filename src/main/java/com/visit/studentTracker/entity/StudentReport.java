@@ -3,33 +3,33 @@ package com.visit.studentTracker.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
-@Table(name = "lectures")
+@Table(name = "student_reports")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Lecture {
+public class StudentReport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long uid;
 
-    @Column(nullable = false)
-    private String lectureName;
-
-    @Column
-    private String description;
-
-    @Column(nullable = false)
-    private LocalDateTime lectureDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", nullable = false)
+    private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "classroom_id", nullable = false)
-    private Classroom classroom;
+    @JoinColumn(name = "report_id", nullable = false)
+    private Report report;
+
+    @Column(columnDefinition = "TEXT")
+    private String feedback;
+
+    @Column(nullable = false)
+    private boolean isActive;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -37,21 +37,11 @@ public class Lecture {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Question> questions;
-
-    @Column(nullable = false)
-    private boolean isActive;
-
-    @Column(nullable = false)
-    private boolean isResultEntered;
-
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = this.createdAt;
         this.isActive = true;
-        this.isResultEntered = false;
     }
 
     @PreUpdate
