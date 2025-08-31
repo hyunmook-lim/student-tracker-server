@@ -1,8 +1,34 @@
-.git
-.gitignore
-README.md
-Dockerfile
-.dockerignore
-build/
+# Gradle
 .gradle/
+build/
+!build/libs/
+!build/libs/*.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Logs
 *.log
+
+# Runtime data
+data/
+*.db
+*.trace.db
+*.lock.db
+
+# Documentation
+README.md
+*.md
+
+# Test files
+src/test/
