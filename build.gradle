@@ -47,5 +47,7 @@ jar {
 
 bootJar {
 	archiveClassifier = ''
+	archiveBaseName = 'studentTracker'
+	archiveVersion = '0.0.1-SNAPSHOT'
 	mainClass = 'com.visit.studentTracker.StudentTrackerApplication'
 }
