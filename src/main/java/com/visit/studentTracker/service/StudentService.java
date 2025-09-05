@@ -3,6 +3,7 @@ package com.visit.studentTracker.service;
 import com.visit.studentTracker.dto.student.request.CreateStudentRequest;
 import com.visit.studentTracker.dto.student.request.UpdateStudentRequest;
 import com.visit.studentTracker.dto.student.request.StudentLoginRequest;
+import com.visit.studentTracker.dto.student.request.ChangePasswordRequest;
 import com.visit.studentTracker.dto.student.response.StudentResponse;
 import com.visit.studentTracker.dto.student.response.StudentAnalyticsResponse;
 import com.visit.studentTracker.dto.student.response.ClassroomStudentAnalyticsResponse;
@@ -518,6 +519,27 @@ public class StudentService {
                                 .overallAverageScore(overallAverageScore)
                                 .assignmentCompletionRate(assignmentCompletionRate)
                                 .build();
+        }
+
+        // 비밀번호 변경
+        @Transactional
+        public void changePassword(ChangePasswordRequest dto) {
+                Student student = studentRepository.findByLoginId(dto.getLoginId())
+                                .orElseThrow(() -> new IllegalArgumentException("해당 로그인 아이디를 찾을 수 없습니다."));
+
+                // uid, loginId, password 검증
+                if (!student.getUid().equals(dto.getUid())) {
+                        throw new IllegalArgumentException("UID가 일치하지 않습니다.");
+                }
+
+                if (!student.getPassword().equals(dto.getPassword())) {
+                        throw new IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.");
+                }
+
+                // 새 비밀번호로 변경
+                student.setPassword(dto.getNewPassword());
+                student.setUpdatedAt(LocalDateTime.now());
+                studentRepository.save(student);
         }
 
         // DTO 변환 메서드

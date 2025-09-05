@@ -3,6 +3,7 @@ package com.visit.studentTracker.service;
 import com.visit.studentTracker.dto.teacher.request.CreateTeacherRequest;
 import com.visit.studentTracker.dto.teacher.request.UpdateTeacherRequest;
 import com.visit.studentTracker.dto.teacher.request.TeacherLoginRequest;
+import com.visit.studentTracker.dto.teacher.request.ChangePasswordRequest;
 import com.visit.studentTracker.dto.teacher.response.TeacherResponse;
 import com.visit.studentTracker.entity.Teacher;
 import com.visit.studentTracker.repository.TeacherRepository;
@@ -102,6 +103,27 @@ public class TeacherService {
         teacherRepository.save(teacher);
 
         return toResponse(teacher);
+    }
+
+    // 비밀번호 변경
+    @Transactional
+    public void changePassword(ChangePasswordRequest dto) {
+        Teacher teacher = teacherRepository.findByLoginId(dto.getLoginId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 로그인 아이디를 찾을 수 없습니다."));
+
+        // uid, loginId, password 검증
+        if (!teacher.getUid().equals(dto.getUid())) {
+            throw new IllegalArgumentException("UID가 일치하지 않습니다.");
+        }
+
+        if (!teacher.getPassword().equals(dto.getPassword())) {
+            throw new IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.");
+        }
+
+        // 새 비밀번호로 변경
+        teacher.setPassword(dto.getNewPassword());
+        teacher.setUpdatedAt(LocalDateTime.now());
+        teacherRepository.save(teacher);
     }
 
     // DTO 변환 메서드

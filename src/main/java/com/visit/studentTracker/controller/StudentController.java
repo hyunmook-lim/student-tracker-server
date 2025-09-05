@@ -3,6 +3,7 @@ package com.visit.studentTracker.controller;
 import com.visit.studentTracker.dto.student.request.CreateStudentRequest;
 import com.visit.studentTracker.dto.student.request.UpdateStudentRequest;
 import com.visit.studentTracker.dto.student.request.StudentLoginRequest;
+import com.visit.studentTracker.dto.student.request.ChangePasswordRequest;
 import com.visit.studentTracker.dto.student.response.StudentResponse;
 import com.visit.studentTracker.dto.student.response.StudentAnalyticsResponse;
 import com.visit.studentTracker.dto.student.response.ClassroomStudentAnalyticsResponse;
@@ -80,5 +81,12 @@ public class StudentController {
     @GetMapping("/{studentId}/dashboard")
     public ResponseEntity<StudentDashboardResponse> getStudentDashboard(@PathVariable Long studentId) {
         return ResponseEntity.ok(studentService.getStudentDashboard(studentId));
+    }
+
+    // 비밀번호 변경
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest dto) {
+        studentService.changePassword(dto);
+        return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
     }
 }

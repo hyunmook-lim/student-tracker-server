@@ -1,6 +1,9 @@
+# Production Profile Configuration
+
+# H2 Database Configuration for Production
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:file:/var/app/current/data/studentdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -9,21 +12,27 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: false
+    database-platform: org.hibernate.dialect.H2Dialect
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
         format_sql: false
 
+  # H2 Console 활성화 (개발용)
   h2:
     console:
       enabled: true
+      settings:
+        web-allow-others: true
 
-server:
-  port: ${PORT:5000}
-
+# Logging Configuration for Production
 logging:
   level:
-    root: INFO
+    root: WARN
     com.visit.studentTracker: INFO
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    org.hibernate.SQL: WARN
+    org.hibernate.type.descriptor.sql.BasicBinder: WARN
+
+# Server Configuration - Fixed port 8080
+server:
+  port: 8080
