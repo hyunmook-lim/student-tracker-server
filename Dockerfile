@@ -3,6 +3,7 @@ FROM gradle:8.5.0-jdk17 AS builder
 WORKDIR /app
 COPY . .
 # Skip tests during build to speed up deployment
+RUN chmod +x ./gradlew
 RUN ./gradlew clean bootJar -x test
 
 # Stage 2: Run the application
