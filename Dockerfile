@@ -11,8 +11,8 @@ FROM eclipse-temurin:17-jdk-jammy
 WORKDIR /app
 COPY --from=builder /app/build/libs/*.jar app.jar
 
-# Expose port (Koyeb expects 8080 by default)
-EXPOSE 8080
+# Expose port (Koyeb Free tier uses 8000)
+EXPOSE 8000
 
 # Run with prod profile
 ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "app.jar"]
