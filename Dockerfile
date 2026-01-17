@@ -7,7 +7,7 @@ RUN chmod +x ./gradlew
 RUN ./gradlew clean bootJar -x test
 
 # Stage 2: Run the application
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-jammy
 WORKDIR /app
 COPY --from=builder /app/build/libs/*.jar app.jar
 
