@@ -1,24 +1,26 @@
 package com.visit.studentTracker.service;
 
-import com.visit.studentTracker.entity.StudentQuestionResult;
-import com.visit.studentTracker.entity.Student;
-import com.visit.studentTracker.entity.Question;
-import com.visit.studentTracker.entity.Lecture;
-import com.visit.studentTracker.entity.StudentLectureResult;
-import com.visit.studentTracker.repository.StudentQuestionResultRepository;
-import com.visit.studentTracker.repository.StudentRepository;
-import com.visit.studentTracker.repository.QuestionRepository;
-import com.visit.studentTracker.repository.LectureRepository;
-import com.visit.studentTracker.repository.StudentLectureResultRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.Comparator;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.visit.studentTracker.entity.Lecture;
+import com.visit.studentTracker.entity.Question;
+import com.visit.studentTracker.entity.Student;
+import com.visit.studentTracker.entity.StudentLectureResult;
+import com.visit.studentTracker.entity.StudentQuestionResult;
+import com.visit.studentTracker.repository.LectureRepository;
+import com.visit.studentTracker.repository.QuestionRepository;
+import com.visit.studentTracker.repository.StudentLectureResultRepository;
+import com.visit.studentTracker.repository.StudentQuestionResultRepository;
+import com.visit.studentTracker.repository.StudentRepository;
 
 @Service
+@SuppressWarnings("null")
 public class StudentQuestionResultService {
 
     private final StudentQuestionResultRepository studentQuestionResultRepository;
@@ -206,10 +208,10 @@ public class StudentQuestionResultService {
 
     // 학생 점수 정보를 담는 내부 클래스
     public static class StudentScoreInfo {
-        private Long studentId;
-        private String studentName;
-        private Integer totalScore;
-        private Integer rank;
+        private final Long studentId;
+        private final String studentName;
+        private final Integer totalScore;
+        private final Integer rank;
 
         public StudentScoreInfo(Long studentId, String studentName, Integer totalScore, Integer rank) {
             this.studentId = studentId;

@@ -1,29 +1,31 @@
 package com.visit.studentTracker.service;
 
-import com.visit.studentTracker.dto.report.request.CreateReportRequest;
-import com.visit.studentTracker.dto.report.request.UpdateReportRequest;
-import com.visit.studentTracker.dto.report.request.UpdateStudentFeedbackRequest;
-import com.visit.studentTracker.dto.report.response.ReportResponse;
-import com.visit.studentTracker.entity.Report;
-import com.visit.studentTracker.entity.ReportLecture;
-import com.visit.studentTracker.entity.StudentReport;
-import com.visit.studentTracker.entity.Classroom;
-import com.visit.studentTracker.entity.Lecture;
-import com.visit.studentTracker.entity.Student;
-import com.visit.studentTracker.repository.ReportRepository;
-import com.visit.studentTracker.repository.ReportLectureRepository;
-import com.visit.studentTracker.repository.StudentReportRepository;
-import com.visit.studentTracker.repository.ClassroomRepository;
-import com.visit.studentTracker.repository.LectureRepository;
-import com.visit.studentTracker.repository.StudentRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.visit.studentTracker.dto.report.request.CreateReportRequest;
+import com.visit.studentTracker.dto.report.request.UpdateReportRequest;
+import com.visit.studentTracker.dto.report.request.UpdateStudentFeedbackRequest;
+import com.visit.studentTracker.dto.report.response.ReportResponse;
+import com.visit.studentTracker.entity.Classroom;
+import com.visit.studentTracker.entity.Lecture;
+import com.visit.studentTracker.entity.Report;
+import com.visit.studentTracker.entity.ReportLecture;
+import com.visit.studentTracker.entity.Student;
+import com.visit.studentTracker.entity.StudentReport;
+import com.visit.studentTracker.repository.ClassroomRepository;
+import com.visit.studentTracker.repository.LectureRepository;
+import com.visit.studentTracker.repository.ReportLectureRepository;
+import com.visit.studentTracker.repository.ReportRepository;
+import com.visit.studentTracker.repository.StudentReportRepository;
+import com.visit.studentTracker.repository.StudentRepository;
+
 @Service
+@SuppressWarnings("null")
 public class ReportService {
 
     private final ReportRepository reportRepository;

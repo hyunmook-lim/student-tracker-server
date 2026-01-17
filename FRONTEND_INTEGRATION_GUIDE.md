@@ -11,7 +11,7 @@ http://localhost:8080
 ### 프로덕션 환경
 
 ```
-http://fit-math-prod.eba-3ezakhau.ap-northeast-2.elasticbeanstalk.com
+https://your-backend-url.com
 ```
 
 ## 🔧 프론트엔드 설정
@@ -25,13 +25,13 @@ http://fit-math-prod.eba-3ezakhau.ap-northeast-2.elasticbeanstalk.com
 VITE_API_BASE_URL=http://localhost:8080
 
 # 프로덕션 환경
-VITE_API_BASE_URL=http://fit-math-prod.eba-3ezakhau.ap-northeast-2.elasticbeanstalk.com
+VITE_API_BASE_URL=https://your-backend-url.com
 ```
 
 #### Vite 프로젝트의 `.env.production` 파일
 
 ```env
-VITE_API_BASE_URL=http://fit-math-prod.eba-3ezakhau.ap-northeast-2.elasticbeanstalk.com
+VITE_API_BASE_URL=https://your-backend-url.com
 ```
 
 ### 2. API 클라이언트 설정
@@ -284,7 +284,7 @@ apiClient.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // 응답 인터셉터
@@ -299,7 +299,7 @@ apiClient.interceptors.response.use(
       window.location.href = "/login";
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default apiClient;
@@ -332,9 +332,7 @@ const API_BASE_URL = import.meta.env.PROD
 
 ```javascript
 // 브라우저 콘솔에서 테스트
-fetch(
-  "http://fit-math-prod.eba-3ezakhau.ap-northeast-2.elasticbeanstalk.com/actuator/health"
-)
+fetch("https://your-backend-url.com/actuator/health")
   .then((response) => response.json())
   .then((data) => console.log("API 연결 성공:", data))
   .catch((error) => console.error("API 연결 실패:", error));
@@ -344,9 +342,7 @@ fetch(
 
 ```javascript
 // 프론트엔드에서 API 호출 테스트
-fetch(
-  "http://fit-math-prod.eba-3ezakhau.ap-northeast-2.elasticbeanstalk.com/api/students"
-)
+fetch("https://your-backend-url.com/api/students")
   .then((response) => response.json())
   .then((data) => console.log("학생 목록:", data))
   .catch((error) => console.error("에러:", error));

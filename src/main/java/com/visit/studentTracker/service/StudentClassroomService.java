@@ -1,22 +1,24 @@
 package com.visit.studentTracker.service;
 
-import com.visit.studentTracker.entity.StudentClassroom;
-import com.visit.studentTracker.entity.Student;
-import com.visit.studentTracker.entity.Classroom;
-import com.visit.studentTracker.entity.StudentClassroomStatus;
-import com.visit.studentTracker.dto.studentClassroom.response.StudentClassroomResponse;
-import com.visit.studentTracker.dto.student.response.StudentResponse;
-import com.visit.studentTracker.dto.classroom.response.ClassroomResponse;
-import com.visit.studentTracker.repository.StudentClassroomRepository;
-import com.visit.studentTracker.repository.StudentRepository;
-import com.visit.studentTracker.repository.ClassroomRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.visit.studentTracker.dto.classroom.response.ClassroomResponse;
+import com.visit.studentTracker.dto.student.response.StudentResponse;
+import com.visit.studentTracker.dto.studentClassroom.response.StudentClassroomResponse;
+import com.visit.studentTracker.entity.Classroom;
+import com.visit.studentTracker.entity.Student;
+import com.visit.studentTracker.entity.StudentClassroom;
+import com.visit.studentTracker.entity.StudentClassroomStatus;
+import com.visit.studentTracker.repository.ClassroomRepository;
+import com.visit.studentTracker.repository.StudentClassroomRepository;
+import com.visit.studentTracker.repository.StudentRepository;
+
 @Service
+@SuppressWarnings("null")
 public class StudentClassroomService {
 
         private final StudentClassroomRepository studentClassroomRepository;

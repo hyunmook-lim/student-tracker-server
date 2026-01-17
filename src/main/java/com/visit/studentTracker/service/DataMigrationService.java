@@ -1,17 +1,36 @@
 package com.visit.studentTracker.service;
 
-import com.visit.studentTracker.entity.*;
-import com.visit.studentTracker.repository.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.visit.studentTracker.entity.Classroom;
+import com.visit.studentTracker.entity.Lecture;
+import com.visit.studentTracker.entity.Question;
+import com.visit.studentTracker.entity.Student;
+import com.visit.studentTracker.entity.StudentClassroom;
+import com.visit.studentTracker.entity.StudentLectureResult;
+import com.visit.studentTracker.entity.StudentQuestionResult;
+import com.visit.studentTracker.entity.StudentReport;
+import com.visit.studentTracker.entity.Teacher;
+import com.visit.studentTracker.entity.TeacherClassroom;
+import com.visit.studentTracker.repository.ClassroomRepository;
+import com.visit.studentTracker.repository.LectureRepository;
+import com.visit.studentTracker.repository.QuestionRepository;
+import com.visit.studentTracker.repository.StudentClassroomRepository;
+import com.visit.studentTracker.repository.StudentLectureResultRepository;
+import com.visit.studentTracker.repository.StudentQuestionResultRepository;
+import com.visit.studentTracker.repository.StudentReportRepository;
+import com.visit.studentTracker.repository.StudentRepository;
+import com.visit.studentTracker.repository.TeacherClassroomRepository;
+import com.visit.studentTracker.repository.TeacherRepository;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor

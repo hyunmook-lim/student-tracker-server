@@ -1,27 +1,29 @@
 package com.visit.studentTracker.service;
 
-import com.visit.studentTracker.dto.studentLectureResult.request.CreateStudentLectureResultRequest;
-import com.visit.studentTracker.dto.studentLectureResult.request.UpdateStudentLectureResultRequest;
-import com.visit.studentTracker.dto.studentLectureResult.response.StudentLectureResultResponse;
-import com.visit.studentTracker.entity.StudentLectureResult;
-import com.visit.studentTracker.entity.StudentQuestionResult;
-import com.visit.studentTracker.entity.Student;
-import com.visit.studentTracker.entity.Lecture;
-import com.visit.studentTracker.entity.Question;
-import com.visit.studentTracker.repository.StudentLectureResultRepository;
-import com.visit.studentTracker.repository.StudentQuestionResultRepository;
-import com.visit.studentTracker.repository.StudentRepository;
-import com.visit.studentTracker.repository.LectureRepository;
-import com.visit.studentTracker.repository.QuestionRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.visit.studentTracker.dto.studentLectureResult.request.CreateStudentLectureResultRequest;
+import com.visit.studentTracker.dto.studentLectureResult.request.UpdateStudentLectureResultRequest;
+import com.visit.studentTracker.dto.studentLectureResult.response.StudentLectureResultResponse;
+import com.visit.studentTracker.entity.Lecture;
+import com.visit.studentTracker.entity.Question;
+import com.visit.studentTracker.entity.Student;
+import com.visit.studentTracker.entity.StudentLectureResult;
+import com.visit.studentTracker.entity.StudentQuestionResult;
+import com.visit.studentTracker.repository.LectureRepository;
+import com.visit.studentTracker.repository.QuestionRepository;
+import com.visit.studentTracker.repository.StudentLectureResultRepository;
+import com.visit.studentTracker.repository.StudentQuestionResultRepository;
+import com.visit.studentTracker.repository.StudentRepository;
+
 @Service
+@SuppressWarnings("null")
 public class StudentLectureResultService {
 
     private final StudentLectureResultRepository studentLectureResultRepository;

@@ -1,17 +1,19 @@
 package com.visit.studentTracker.service;
 
-import com.visit.studentTracker.entity.TeacherClassroom;
-import com.visit.studentTracker.entity.Teacher;
-import com.visit.studentTracker.entity.Classroom;
-import com.visit.studentTracker.repository.TeacherClassroomRepository;
-import com.visit.studentTracker.repository.TeacherRepository;
-import com.visit.studentTracker.repository.ClassroomRepository;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.visit.studentTracker.entity.Classroom;
+import com.visit.studentTracker.entity.Teacher;
+import com.visit.studentTracker.entity.TeacherClassroom;
+import com.visit.studentTracker.repository.ClassroomRepository;
+import com.visit.studentTracker.repository.TeacherClassroomRepository;
+import com.visit.studentTracker.repository.TeacherRepository;
 
 @Service
+@SuppressWarnings("null")
 public class TeacherClassroomService {
 
     private final TeacherClassroomRepository teacherClassroomRepository;

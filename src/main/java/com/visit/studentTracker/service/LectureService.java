@@ -1,22 +1,24 @@
 package com.visit.studentTracker.service;
 
-import com.visit.studentTracker.dto.lecture.request.CreateLectureRequest;
-import com.visit.studentTracker.dto.lecture.request.UpdateLectureRequest;
-import com.visit.studentTracker.dto.lecture.response.LectureResponse;
-import com.visit.studentTracker.entity.Lecture;
-import com.visit.studentTracker.entity.Classroom;
-import com.visit.studentTracker.entity.Question;
-import com.visit.studentTracker.repository.LectureRepository;
-import com.visit.studentTracker.repository.ClassroomRepository;
-import com.visit.studentTracker.repository.QuestionRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.visit.studentTracker.dto.lecture.request.CreateLectureRequest;
+import com.visit.studentTracker.dto.lecture.request.UpdateLectureRequest;
+import com.visit.studentTracker.dto.lecture.response.LectureResponse;
+import com.visit.studentTracker.entity.Classroom;
+import com.visit.studentTracker.entity.Lecture;
+import com.visit.studentTracker.entity.Question;
+import com.visit.studentTracker.repository.ClassroomRepository;
+import com.visit.studentTracker.repository.LectureRepository;
+import com.visit.studentTracker.repository.QuestionRepository;
+
 @Service
+@SuppressWarnings("null")
 public class LectureService {
 
     private final LectureRepository lectureRepository;

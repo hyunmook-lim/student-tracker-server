@@ -1,34 +1,34 @@
 package com.visit.studentTracker.service;
 
-import com.visit.studentTracker.dto.student.request.CreateStudentRequest;
-import com.visit.studentTracker.dto.student.request.UpdateStudentRequest;
-import com.visit.studentTracker.dto.student.request.StudentLoginRequest;
-import com.visit.studentTracker.dto.student.request.ChangePasswordRequest;
-import com.visit.studentTracker.dto.student.response.StudentResponse;
-import com.visit.studentTracker.dto.student.response.StudentAnalyticsResponse;
-import com.visit.studentTracker.dto.student.response.ClassroomStudentAnalyticsResponse;
-import com.visit.studentTracker.dto.student.response.StudentDashboardResponse;
-import com.visit.studentTracker.entity.Student;
-import com.visit.studentTracker.entity.Classroom;
-import com.visit.studentTracker.entity.StudentClassroom;
-import com.visit.studentTracker.entity.StudentClassroomStatus;
-
-import com.visit.studentTracker.repository.StudentRepository;
-import com.visit.studentTracker.repository.ClassroomRepository;
-import com.visit.studentTracker.repository.StudentClassroomRepository;
-import com.visit.studentTracker.repository.StudentQuestionResultRepository;
-import com.visit.studentTracker.repository.StudentLectureResultRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.visit.studentTracker.dto.student.request.ChangePasswordRequest;
+import com.visit.studentTracker.dto.student.request.CreateStudentRequest;
+import com.visit.studentTracker.dto.student.request.StudentLoginRequest;
+import com.visit.studentTracker.dto.student.request.UpdateStudentRequest;
+import com.visit.studentTracker.dto.student.response.ClassroomStudentAnalyticsResponse;
+import com.visit.studentTracker.dto.student.response.StudentAnalyticsResponse;
+import com.visit.studentTracker.dto.student.response.StudentDashboardResponse;
+import com.visit.studentTracker.dto.student.response.StudentResponse;
+import com.visit.studentTracker.entity.Classroom;
+import com.visit.studentTracker.entity.Student;
+import com.visit.studentTracker.entity.StudentClassroom;
+import com.visit.studentTracker.entity.StudentClassroomStatus;
+import com.visit.studentTracker.repository.ClassroomRepository;
+import com.visit.studentTracker.repository.StudentClassroomRepository;
+import com.visit.studentTracker.repository.StudentLectureResultRepository;
+import com.visit.studentTracker.repository.StudentQuestionResultRepository;
+import com.visit.studentTracker.repository.StudentRepository;
 
 @Service
+@SuppressWarnings("null")
 public class StudentService {
 
         private final StudentRepository studentRepository;
@@ -412,18 +412,10 @@ public class StudentService {
                         String score = (String) stat[0];
                         Long count = (Long) stat[1];
                         switch (score.toUpperCase()) {
-                                case "A":
-                                        aCount = count;
-                                        break;
-                                case "B":
-                                        bCount = count;
-                                        break;
-                                case "C":
-                                        cCount = count;
-                                        break;
-                                case "D":
-                                        dCount = count;
-                                        break;
+                                case "A" -> aCount = count;
+                                case "B" -> bCount = count;
+                                case "C" -> cCount = count;
+                                case "D" -> dCount = count;
                         }
                 }
 
@@ -486,18 +478,10 @@ public class StudentService {
                         String score = (String) stat[0];
                         Long count = (Long) stat[1];
                         switch (score.toUpperCase()) {
-                                case "A":
-                                        aCount = count;
-                                        break;
-                                case "B":
-                                        bCount = count;
-                                        break;
-                                case "C":
-                                        cCount = count;
-                                        break;
-                                case "D":
-                                        dCount = count;
-                                        break;
+                                case "A" -> aCount = count;
+                                case "B" -> bCount = count;
+                                case "C" -> cCount = count;
+                                case "D" -> dCount = count;
                         }
                 }
 

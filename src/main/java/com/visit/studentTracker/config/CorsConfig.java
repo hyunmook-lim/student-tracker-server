@@ -1,16 +1,17 @@
 package com.visit.studentTracker.config;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
@@ -19,11 +20,12 @@ public class CorsConfig implements WebMvcConfigurer {
     private String allowedOrigins;
 
     @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        List<String> origins = Arrays.asList(allowedOrigins.split(","));
+    @SuppressWarnings("null")
+    public void addCorsMappings(@NonNull CorsRegistry registry) {
+        String[] origins = allowedOrigins.split(",");
 
         registry.addMapping("/**")
-                .allowedOriginPatterns(origins.toArray(new String[0]))
+                .allowedOriginPatterns(origins)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true)

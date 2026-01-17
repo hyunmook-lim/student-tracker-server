@@ -1,20 +1,22 @@
 package com.visit.studentTracker.service;
 
-import com.visit.studentTracker.dto.teacher.request.CreateTeacherRequest;
-import com.visit.studentTracker.dto.teacher.request.UpdateTeacherRequest;
-import com.visit.studentTracker.dto.teacher.request.TeacherLoginRequest;
-import com.visit.studentTracker.dto.teacher.request.ChangePasswordRequest;
-import com.visit.studentTracker.dto.teacher.response.TeacherResponse;
-import com.visit.studentTracker.entity.Teacher;
-import com.visit.studentTracker.repository.TeacherRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.visit.studentTracker.dto.teacher.request.ChangePasswordRequest;
+import com.visit.studentTracker.dto.teacher.request.CreateTeacherRequest;
+import com.visit.studentTracker.dto.teacher.request.TeacherLoginRequest;
+import com.visit.studentTracker.dto.teacher.request.UpdateTeacherRequest;
+import com.visit.studentTracker.dto.teacher.response.TeacherResponse;
+import com.visit.studentTracker.entity.Teacher;
+import com.visit.studentTracker.repository.TeacherRepository;
+
 @Service
+@SuppressWarnings("null")
 public class TeacherService {
 
     private final TeacherRepository teacherRepository;

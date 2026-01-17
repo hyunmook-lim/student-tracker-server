@@ -1,5 +1,12 @@
 package com.visit.studentTracker.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.visit.studentTracker.dto.question.request.CreateQuestionRequest;
 import com.visit.studentTracker.dto.question.request.CreateQuestionsRequest;
 import com.visit.studentTracker.dto.question.request.UpdateQuestionRequest;
@@ -8,14 +15,9 @@ import com.visit.studentTracker.entity.Lecture;
 import com.visit.studentTracker.entity.Question;
 import com.visit.studentTracker.repository.LectureRepository;
 import com.visit.studentTracker.repository.QuestionRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
+@SuppressWarnings("null")
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
